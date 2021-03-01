@@ -19,6 +19,9 @@ app.use(express.urlencoded({extended:true}));
 app.get('/', function (req, res){
   res.render('index');
 });
+app.get('/colores', function (req, res){
+  res.render('colores.ejs');
+});
 
 
 // Lanzamos nuestra aplicación
@@ -62,6 +65,33 @@ io.on('connection', function(socket) {
 
   });
 
+  socket.emit('coloreando-verde', {msg: 'hola'});
+  socket.broadcast.emit('coloreando', {msg: 'hola'});
 
+  socket.emit('coloreando-azul', {msg: 'hola'});
+  socket.broadcast.emit('coloreando', {msg: 'hola'});
+
+  socket.emit('coloreando-rosa', {msg: 'hola'});
+  socket.broadcast.emit('coloreando', {msg: 'hola'});
+
+
+
+  socket.on('coloreando-verde', function(data){
+    //console.log('verde');
+    socket.emit('cambiando-verde', {msg: 'chao'});
+    socket.broadcast.emit('cambiando-verde', {msg: 'chao'});
+  });
+
+  socket.on('coloreando-azul', function(data){
+    //console.log('azul');
+    socket.emit('cambiando-azul', {msg: 'chao'});
+    socket.broadcast.emit('cambiando-azul', {msg: 'chao'});
+  });
+
+  socket.on('coloreando-rosa', function(data){
+    //console.log('rosa');
+    socket.emit('cambiando-rosa', {msg: 'chao'});
+    socket.broadcast.emit('cambiando-rosa', {msg: 'chao'});
+  });
 
 });
