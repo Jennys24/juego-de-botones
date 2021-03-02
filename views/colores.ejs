@@ -19,11 +19,25 @@
 
     <div class="my-5 d-grid gap-2 col-6 mx-auto">
     
-    <button id="verde-green" class="btn btn-outline-success align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">Verde</button>
+    <button id="green" class="colorBtn btn btn-outline-dark align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">
+      Verde
+    </button>
    
-    <button id="blue-azul" class="btn btn-outline-primary align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">Azul</button>
+    <button id="blue" class="colorBtn btn btn-outline-dark align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">
+      Azul
+    </button>
 
-    <button id="pink-rosado" class="btn btn-outline-danger align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">Rosado</button>
+    <button id="pink" class="colorBtn btn btn-outline-dark align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">
+      Rosado
+    </button>
+
+    <button id="purple" class="colorBtn btn btn-outline-dark align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">
+      Purpura
+    </button>
+
+    <button id="radial-gradient(circle, rgba(246,91,91,1) 0%, rgba(109,245,124,0.9332107843137255) 100%)" class="colorBtn btn btn-outline-dark align-center d-inline py-2 m-auto w-50 h-35 rounded-1 fw-bolder">
+      Gradient
+    </button>
     
     </div>
 
@@ -31,7 +45,7 @@
     <script>
         
       const socket = io('http://localhost:8000');     
-
+      
       function hablar(mensaje) {
       var msg = new SpeechSynthesisUtterance();
       msg.text = mensaje;
@@ -39,8 +53,19 @@
       }
 
       $(document).ready(function(){
-      
-        //se captura la orden de los botones y se envia al server...
+        $('.colorBtn').on('click', function(){
+          let color = $(this).attr('id');
+          let nombre = $(this).html();
+          console.log(color);
+          socket.emit('changeColor', {color:color});
+          hablar(nombre);
+        });
+        socket.on('color', function(data){
+          $('body').css('background', data.color);
+          console.log(data);
+        });
+
+        /* //se captura la orden de los botones y se envia al server...
         $('#verde-green').on('click', function(){
           socket.emit('coloreando-verde');
         });
@@ -64,7 +89,7 @@
         socket.on('cambiando-rosa', function(data){
           $('body').css('background-color', 'pink');
           hablar('rosado');
-        });
+        });*/
 
       });
       

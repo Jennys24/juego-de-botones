@@ -65,7 +65,11 @@ io.on('connection', function(socket) {
 
   });
 
-  socket.emit('coloreando-verde', {msg: 'hola'});
+  socket.on('changeColor', function(data){
+    io.emit('color', {color: data.color});
+  });
+
+  /* socket.emit('coloreando-verde', {msg: 'hola'});
   socket.broadcast.emit('coloreando', {msg: 'hola'});
 
   socket.emit('coloreando-azul', {msg: 'hola'});
@@ -92,6 +96,6 @@ io.on('connection', function(socket) {
     //console.log('rosa');
     socket.emit('cambiando-rosa', {msg: 'chao'});
     socket.broadcast.emit('cambiando-rosa', {msg: 'chao'});
-  });
+  }); */
 
 });
